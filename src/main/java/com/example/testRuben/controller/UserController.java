@@ -1,18 +1,18 @@
-package controller;
+package com.example.testRuben.controller;
 
-import models.userModel;
+import com.example.testRuben.model.UserModel;
+import com.example.testRuben.service.UserService;
 import org.springframework.web.bind.annotation.*;
-import services.UserService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-public class user {
+public class UserController {
 
     private final UserService userService;
 
-    public user(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -22,7 +22,7 @@ public class user {
     }
 
     @GetMapping("/user/all")
-    public List<userModel> getAllUsers() {
+    public List<UserModel> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -33,27 +33,28 @@ public class user {
 
 
     @GetMapping("/user/byName/{nombre}")
-    public List<userModel> getUsersbyName(@PathVariable String nombre) {
+    public List<UserModel> getUsersbyName(@PathVariable String nombre) {
         return userService.getUsersByName(nombre);
     }
 
     @PostMapping("/create")
-    public userModel createUser(@RequestBody userModel request) {
+    public UserModel createUser(@RequestBody UserModel request) {
         return userService.crearUsuario(request);
     }
 
     @GetMapping("/{id}")
-    public userModel getById(@PathVariable Long id) {
+    public UserModel getById(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
     @PostMapping("/ageCheck")
-    public String ageCheck(@RequestBody userModel request) {
+    public String ageCheck(@RequestBody UserModel request) {
         return userService.esMayorDeEdad(request);
     }
 
     @PostMapping("/yearBorn")
-    public String yearBorn(@RequestBody userModel request) {
+    public String yearBorn(@RequestBody UserModel request) {
         return userService.dayBorn(request);
     }
+
 }

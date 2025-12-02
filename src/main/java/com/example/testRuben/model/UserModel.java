@@ -1,10 +1,10 @@
-package models;
+package com.example.testRuben.model;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class userModel {
+public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +13,9 @@ public class userModel {
     private String name;
     private int age;
 
-    public userModel() {}
+    public UserModel() {}
 
-    public userModel(String name, int age) {
+    public UserModel(String name, int age) {
         this.name = name;
         this.age = age;
     }
@@ -35,5 +35,13 @@ public class userModel {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

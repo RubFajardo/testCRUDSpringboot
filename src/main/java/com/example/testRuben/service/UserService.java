@@ -1,9 +1,10 @@
-package services;
+package com.example.testRuben.service;
 
-import models.userModel;
+
+import com.example.testRuben.model.UserModel;
+import com.example.testRuben.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
 
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public userModel getUser(Long id) {
+    public UserModel getUser(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public List<userModel> getAllUsers() {
+    public List<UserModel> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -27,7 +28,7 @@ public class UserService {
         return "User eliminado";
     }
 
-    public List<userModel> getUsersByName(String name){
+    public List<UserModel> getUsersByName(String name){
         return userRepository.findByName(name);
     }
 
@@ -39,22 +40,22 @@ public class UserService {
         return "Hola " + nombre + " desde el servicio!";
     }
 
-    public userModel crearUsuario(userModel user) {
+    public UserModel crearUsuario(UserModel user) {
         return userRepository.save(user);
     }
 
-    public userModel obtenerUsuario() {
-        return new userModel("Carlos", 23);
+    public UserModel obtenerUsuario() {
+        return new UserModel("Carlos", 23);
     }
 
-    public String esMayorDeEdad(userModel user) {
+    public String esMayorDeEdad(UserModel user) {
         if (user.getAge() >= 18) {
             return "Mayor de edad";
         }
         return "Menor de edad";
     }
 
-    public String dayBorn(userModel user) {
+    public String dayBorn(UserModel user) {
         int yearBorn = 2025 - user.getAge();
         return "Naciste en el año " + yearBorn;
     }
