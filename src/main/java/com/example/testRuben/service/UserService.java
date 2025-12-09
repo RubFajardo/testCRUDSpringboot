@@ -28,10 +28,6 @@ public class UserService {
         return "User eliminado";
     }
 
-    public List<UserModel> getUsersByName(String name){
-        return userRepository.findByName(name);
-    }
-
     public String saludoBasico() {
         return "Hola user desde el servicio!";
     }
