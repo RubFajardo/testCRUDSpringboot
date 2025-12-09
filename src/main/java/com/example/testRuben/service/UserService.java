@@ -43,20 +43,4 @@ public class UserService {
     public UserModel crearUsuario(UserModel user) {
         return userRepository.save(user);
     }
-
-    public UserModel obtenerUsuario() {
-        return new UserModel("Carlos", 23);
-    }
-
-    public String esMayorDeEdad(UserModel user) {
-        if (user.getAge() >= 18) {
-            return "Mayor de edad";
-        }
-        return "Menor de edad";
-    }
-
-    public String dayBorn(UserModel user) {
-        int yearBorn = 2025 - user.getAge();
-        return "Naciste en el año " + yearBorn;
-    }
 }

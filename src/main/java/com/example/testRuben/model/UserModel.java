@@ -10,31 +10,33 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private int age;
+    private String email;
+    private String password;
+    private String role;
 
     public UserModel() {}
 
-    public UserModel(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public UserModel(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     // Getters y setters
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getAge() {
-        return age;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
@@ -44,4 +46,10 @@ public class UserModel {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) { this.role = role; }
 }
