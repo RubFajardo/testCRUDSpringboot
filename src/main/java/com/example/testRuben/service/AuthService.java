@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.Optional;
+
 
 @Service
 public class AuthService {
@@ -49,5 +52,24 @@ public class AuthService {
         user.setPassword(hashedPassword);
         userRepository.save(user);
         return "Contraseña actualizada";
+    }
+
+    public String resetEmail (String email, String newEmail) {
+        UserModel user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Optional<UserModel> used = userRepository.findByEmail(newEmail);
+
+        if (Objects.equals(email, newEmail)) {
+            return "No puedes actualizarlo por el mismo email";
+        }
+
+        if (used.isPresent()) {
+            if (!used.get().getId().equals(user.getId())){
+                return "Este email ya ha sido registrado en otro usuario.";
+            }
+        }
+
+        user.setEmail(newEmail);
+        userRepository.save(user);
+        return "Email actualizado";
     }
 }
