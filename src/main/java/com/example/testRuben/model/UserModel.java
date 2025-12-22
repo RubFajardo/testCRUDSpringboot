@@ -2,6 +2,9 @@ package com.example.testRuben.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class UserModel {
@@ -21,6 +24,18 @@ public class UserModel {
         this.password = password;
         this.role = role;
     }
+
+    @OneToOne(mappedBy = "user")
+    private StreetModel street;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    private List<FriendRequest> sentRequests;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<FriendRequest> receivedRequests;
 
     // Getters y setters
     public String getEmail() {

@@ -1,4 +1,4 @@
-package com.example.testRuben.model;
+package com.example.testRuben.dto;
 
 public class ResetPasswordDTO {
     private String email;

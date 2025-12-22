@@ -1,6 +1,6 @@
 package com.example.testRuben.controller;
 
-import com.example.testRuben.model.ResetPasswordDTO;
+import com.example.testRuben.dto.ResetPasswordDTO;
 import com.example.testRuben.model.UserModel;
 import com.example.testRuben.repository.UserRepository;
 import com.example.testRuben.service.AuthService;

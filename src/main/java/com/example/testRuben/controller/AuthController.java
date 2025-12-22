@@ -1,12 +1,9 @@
 package com.example.testRuben.controller;
 
-import com.example.testRuben.model.ResetEmailDTO;
-import com.example.testRuben.model.UserModel;
+import com.example.testRuben.dto.ResetEmailDTO;
 import com.example.testRuben.service.AuthService;
 import com.example.testRuben.service.JwtService;
-import com.example.testRuben.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
