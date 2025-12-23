@@ -48,7 +48,7 @@ public class FriendService {
                         throw new RuntimeException("Ya son amigos");
 
                 case BLOCKED ->
-                        throw new RuntimeException("Has sido bloqueado");
+                        throw new RuntimeException("Has sido bloqueado, no puedes enviar una solicitud de amistad");
 
                 case REJECTED -> {
                     request.setSender(sender);
@@ -113,24 +113,73 @@ public class FriendService {
     }
 
     public String blockUser (Long senderId, Long receiverId) {
+
+        if (senderId.equals(receiverId)) {
+            throw new RuntimeException("No puedes bloquearte a ti mismo");
+        }
+
         UserModel sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new RuntimeException("Usuario sender no encontrado"));
 
         UserModel receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Usuario receiver no encontrado"));
 
+
         Optional<FriendRequest> existing =
                 friendRequestRepository.findBetweenUsers(sender, receiver);
 
-        if (existing.isEmpty()) {
-            FriendRequest friendRequest = new FriendRequest(sender, receiver);
+        FriendRequest friendRequest;
+
+        if (existing.isPresent()) {
+            friendRequest = existing.get();
+
+            if (friendRequest.getStatus().equals(FriendStatus.BLOCKED)) {
+                return "El usuario ya está bloqueado";
+            }
+
             friendRequest.setStatus(FriendStatus.BLOCKED);
-            friendRequestRepository.save(friendRequest);
-            return "Usuario bloqueado exitosamente";
+        } else {
+
+            friendRequest = new FriendRequest(sender, receiver);
+            friendRequest.setStatus(FriendStatus.BLOCKED);
         }
 
-        existing.get().setStatus(FriendStatus.BLOCKED);
+        friendRequestRepository.save(friendRequest);
         return "Usuario bloqueado exitosamente";
+    }
+
+    public String unblockUser (Long requestId, Long currentUserId) {
+
+        FriendRequest request = friendRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Petición no encontrada"));
+
+        if (!request.getSender().getId().equals(currentUserId)) {
+            throw new RuntimeException("No tienes permiso para desbloquear a este usuario");
+        }
+
+        if (!request.getStatus().equals(FriendStatus.BLOCKED)) {
+            return "Este usuario no está bloqueado";
+        }
+
+        friendRequestRepository.delete(request);
+        return "Usuario desbloqueado correctamente";
+    }
+
+    public String unfriendUser (Long requestId, Long currentUserId) {
+        FriendRequest request = friendRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Relación no encontrada"));
+
+        if (!request.getStatus().equals(FriendStatus.ACCEPTED)) {
+            return "No son amigos, no puedes eliminar la amistad";
+        }
+
+        Long senderId = request.getSender().getId();
+        Long receiverId = request.getReceiver().getId();
+
+        if (!senderId.equals(currentUserId) && !receiverId.equals(currentUserId)) {
+            throw new RuntimeException("No tienes permiso para eliminar esta amistad");
+        }
+
+        friendRequestRepository.delete(request);
+        return "Amistad eliminada";
     }
 }
 

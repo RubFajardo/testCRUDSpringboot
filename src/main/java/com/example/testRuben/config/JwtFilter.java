@@ -1,6 +1,7 @@
 package com.example.testRuben.config;
 
 import com.example.testRuben.service.JwtService;
+import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.FilterChain;
@@ -29,8 +30,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             try {
-                String email = jwtService.validate(token); // devuelve email si es válido
-                request.setAttribute("email", email); // lo guardamos para el controller
+                Claims claims = jwtService.getClaims(token);
+
+                String email = claims.getSubject();
+                Long id = claims.get("id", Long.class);
+
+                request.setAttribute("email", email);
+                request.setAttribute("id", id);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Token inválido o expirado");
