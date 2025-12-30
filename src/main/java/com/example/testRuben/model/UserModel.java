@@ -37,6 +37,9 @@ public class UserModel {
     @OneToMany(mappedBy = "receiver")
     private List<FriendRequest> receivedRequests;
 
+    @OneToMany(mappedBy = "user")
+    private List<PRModel> PRs = new ArrayList<>();
+
     // Getters y setters
     public String getEmail() {
         return email;
